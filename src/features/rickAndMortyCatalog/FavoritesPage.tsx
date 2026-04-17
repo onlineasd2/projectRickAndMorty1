@@ -1,8 +1,8 @@
-import { useFavorites } from "@/hooks/useFavorites";
-import { CharacterList } from "@/components/CharacterList";
+import { useFavorites } from "@/features/rickAndMortyCatalog/hooks/useFavorites";
+import { CharacterList } from "@/features/rickAndMortyCatalog/ui/CharacterList";
 
 export function FavoritesPage() {
-  const { list, isFavorite, toggleFavorite, clearFavorites } = useFavorites();
+  const { list, isFavorite, toggleFavorite, remove } = useFavorites();
 
   return (
     <div className="p-4">
@@ -11,7 +11,7 @@ export function FavoritesPage() {
         {list.length > 0 && (
           <button
             className="text-sm underline text-muted-foreground"
-            onClick={clearFavorites}
+            onClick={remove}
             title="Clear all favorites"
           >
             Clear all

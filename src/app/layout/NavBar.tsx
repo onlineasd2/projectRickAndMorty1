@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 
-export function NavBar() {
+export default function NavBar() {
   const linkBase =
     "px-3 py-2 rounded hover:bg-accent hover:text-accent-foreground";
   const active = "bg-accent text-accent-foreground";
