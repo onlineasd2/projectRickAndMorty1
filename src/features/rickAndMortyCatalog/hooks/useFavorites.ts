@@ -1,34 +1,34 @@
 import { useCallback, useMemo } from "react";
-import type { Character } from "../../../shared/types/character";
-import { useLocalStorage } from '@siberiacancode/reactuse';
+import type { Character } from "@/features/rickAndMortyCatalog/types/types";
+import { useLocalStorage } from "@siberiacancode/reactuse";
 
 const LS_KEY = "favorites_characters_v1";
 
 export function useFavorites() {
-  const { value, set, remove } = useLocalStorage<Record<number, Character>>(LS_KEY, {})
-
-  const isFavorite = useCallback(
-    (id: number) => Boolean(value?.[id]),
-    [value],
+  const { value, set, remove } = useLocalStorage<Record<number, Character>>(
+    LS_KEY,
+    {},
   );
 
-  const toggleFavorite = useCallback((char: Character) => {
-    const current = value ?? {};
-    const next = { ...current };
+  const isFavorite = useCallback((id: number) => Boolean(value?.[id]), [value]);
 
-    if (next[char.id]) {
-      delete next[char.id];
-    } else {
-      next[char.id] = char;
-    }
+  const toggleFavorite = useCallback(
+    (char: Character) => {
+      const current = value ?? {};
+      const next = { ...current };
 
-    set(next);
-  }, [set, value]);
+      if (next[char.id]) {
+        delete next[char.id];
+      } else {
+        next[char.id] = char;
+      }
 
-  const list = useMemo(
-      () => Object.values(value ?? {}),
-      [value]
+      set(next);
+    },
+    [set, value],
   );
+
+  const list = useMemo(() => Object.values(value ?? {}), [value]);
 
   return { value, list, isFavorite, toggleFavorite, remove };
 }

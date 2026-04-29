@@ -1,11 +1,3 @@
-export interface Character {
-  id: number;
-  name: string;
-  image: string;
-  status: string;
-  species: string;
-}
-
 export interface CharacterAPIResponse {
   info: {
     count: number;
@@ -13,5 +5,11 @@ export interface CharacterAPIResponse {
     next: string | null;
     prev: string | null;
   };
-  results: Character[];
+  results: {
+    id: number;
+    name: string;
+    image: string;
+    status: string;
+    species: string;
+  }[];
 }

@@ -1,21 +1,23 @@
 import { useState } from "react";
-import type { Character, CharacterAPIResponse } from "@/shared/types/character";
-import { useAsync, useDebounceValue } from '@siberiacancode/reactuse';
+import type { CharacterAPIResponse } from "@/shared/dto/character";
+import { useAsync, useDebounceValue } from "@siberiacancode/reactuse";
+import { httpClient } from "@/api/httpClient";
+import axios from "axios";
+import type { Character } from "@/features/rickAndMortyCatalog/types/types";
 
-const ENDPOINT = "https://rickandmortyapi.com/api/character";
-
-// Функция запроса данных
-const getCharacter = (name: string) =>
-    fetch(`${ENDPOINT}/?name=${encodeURIComponent(name)}`)
-        .then((res) => {
-            if (res.status === 404) {
-                return;
-            }
-            if (!res.ok) {
-                throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-            }
-            return res.json() as Promise<CharacterAPIResponse>;
-        });
+const getCharacter = (name: string) => {
+  return httpClient
+    .get<CharacterAPIResponse>("/character", { params: { name } })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      if (axios.isAxiosError(err) && err.response?.status === 404) {
+        return undefined;
+      }
+      throw err;
+    });
+};
 
 export function useCharacters() {
   // ввод пользователя
@@ -23,19 +25,18 @@ export function useCharacters() {
   const debouncedQuery = useDebounceValue(query, 500);
   // Отправка запроса через хук
   const getCharacters = useAsync(
-      async () => getCharacter(debouncedQuery), [debouncedQuery]
+    async () => getCharacter(debouncedQuery),
+    [debouncedQuery],
   );
 
   // Записываем данные
   const items: Character[] = getCharacters.data?.results ?? [];
-  console.log('render');
+  console.log("render");
 
-  return (
-      {
-        query,
-        setQuery,
-        getCharacters,
-        items,
-      }
-  )
+  return {
+    query,
+    setQuery,
+    getCharacters,
+    items,
+  };
 }

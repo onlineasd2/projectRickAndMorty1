@@ -1,8 +1,9 @@
 import { useFavorites } from "@/features/rickAndMortyCatalog/hooks/useFavorites";
 import { CharacterList } from "@/features/rickAndMortyCatalog/ui/CharacterList";
+import {CharacterCard} from "@/features/rickAndMortyCatalog/ui/CharacterCard.tsx";
 
 export function FavoritesPage() {
-  const { list, isFavorite, toggleFavorite, remove } = useFavorites();
+  const { list, remove, isFavorite, toggleFavorite } = useFavorites();
 
   return (
     <div className="p-4">
@@ -20,8 +21,7 @@ export function FavoritesPage() {
       </div>
       <CharacterList
         items={list}
-        isFavorite={isFavorite}
-        onToggleFavorite={toggleFavorite}
+        renderItem={(c) => <CharacterCard character={c} favorite={isFavorite(c.id)} onToggleFavorite={toggleFavorite} />}
       />
     </div>
   );

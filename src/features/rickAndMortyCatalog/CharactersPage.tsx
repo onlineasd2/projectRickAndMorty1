@@ -2,6 +2,7 @@ import { useCharacters } from "@/features/rickAndMortyCatalog/hooks/useCharacter
 import { useFavorites } from "@/features/rickAndMortyCatalog/hooks/useFavorites";
 import { SearchBar } from "@/features/rickAndMortyCatalog/ui/SearchBar";
 import { CharacterList } from "@/features/rickAndMortyCatalog/ui/CharacterList";
+import {CharacterCard} from "@/features/rickAndMortyCatalog/ui/CharacterCard.tsx";
 
 // Composition Root
 export function CharactersPage() {
@@ -18,8 +19,7 @@ export function CharactersPage() {
 
       <CharacterList
         items={items}
-        isFavorite={isFavorite}
-        onToggleFavorite={toggleFavorite}
+        renderItem={(c) => <CharacterCard character={c} favorite={isFavorite(c.id)} onToggleFavorite={toggleFavorite} />}
       />
     </div>
   );

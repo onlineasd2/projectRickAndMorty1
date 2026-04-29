@@ -1,4 +1,4 @@
-import type { Character } from "@/shared/types/character";
+import type { Character } from "@/features/rickAndMortyCatalog/types/types";
 import { Card, CardTitle, CardContent } from "@/shared/ui/card";
 import { Button } from "@/shared/ui/button";
 import { cn } from "@/shared/lib/utils";
